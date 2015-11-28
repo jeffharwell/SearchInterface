@@ -2,6 +2,7 @@
   "name": "searchinterface",
   "private": true,
   "devDependencies": {
+    "connect-modrewrite": "^0.8.2",
     "autoprefixer-core": "^5.2.1",
     "generator-env-config": "^0.0.2",
     "grunt": "^0.4.5",

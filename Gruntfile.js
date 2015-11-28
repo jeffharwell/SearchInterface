@@ -12,6 +12,9 @@ module.exports = function (grunt) {
   // The grunt-replace plugin which runs the dev/prod
   grunt.loadNpmTasks('grunt-replace')
 
+  // Mod Rewrite
+  var modRewrite = require('connect-modrewrite');
+
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
 
