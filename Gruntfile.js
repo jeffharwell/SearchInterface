@@ -9,6 +9,9 @@
 
 module.exports = function (grunt) {
 
+  // The grunt-replace plugin which runs the dev/prod
+  grunt.loadNpmTasks('grunt-replace')
+
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
 
@@ -27,6 +30,36 @@ module.exports = function (grunt) {
 
   // Define the configuration for all the tasks
   grunt.initConfig({
+
+    // The place task that drives the dev/prod environment change
+    replace: {
+      development: {
+        options: {
+          patterns: [{
+            json: grunt.file.readJSON('./config/environments/development.json')
+          }]
+        },
+        files: [{
+          expand: true,
+          flatten: true,
+          src: ['./config/config.js'],
+          dest: '<%= yeoman.app %>/scripts/services/'
+        }]
+      },
+      production: {
+        options: {
+          patterns: [{
+            json: grunt.file.readJSON('./config/environments/production.json')
+          }]
+        },
+        files: [{
+          expand: true,
+          flatten: true,
+          src: ['./config/config.js'],
+          dest: '<%= yeoman.app %>/scripts/services/'
+        }]
+      }
+    },
 
     // Project settings
     yeoman: appConfig,
@@ -80,6 +113,7 @@ module.exports = function (grunt) {
           open: true,
           middleware: function (connect) {
             return [
+              modRewrite(['!\.html|\.js|\.svg|\.css|\.png$ /index.html [L]']),
               connect.static('.tmp'),
               connect().use(
                 '/bower_components',
@@ -479,5 +513,10 @@ module.exports = function (grunt) {
     'newer:jscs',
     'test',
     'build'
+  ]);
+
+  grunt.registerTask('production', [
+    'replace:production'
+    // more productions tasks can go here
   ]);
 };
