@@ -10,7 +10,7 @@
 module.exports = function (grunt) {
 
   // The grunt-replace plugin which runs the dev/prod
-  grunt.loadNpmTasks('grunt-replace')
+  grunt.loadNpmTasks('grunt-replace');
 
   // Mod Rewrite
   var modRewrite = require('connect-modrewrite');
