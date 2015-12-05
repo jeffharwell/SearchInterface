@@ -7,7 +7,8 @@
  * # cytoscapeDirective
  */
 angular.module('searchInterfaceApp')
-  .directive('cytoscapeDirective', function ($rootScope) {
+  .directive('cytoscapeDirective', function ($rootScope, $window) {
+
 
     return {
         restrict: 'E',
@@ -19,38 +20,31 @@ angular.module('searchInterfaceApp')
             cyClick: '&'
         },
         link: function(scope) {
-            // build the graph
-            console.debug('doCy called');
-            //scope.elements.nodes = scope.cyNodes;
-            //scope.elements.edges = scope.cyEdges;
-
-            scope.cy = cytoscape({
-                container: $('#cy'),
-                style: cytoscape.stylesheet()
-                    .selector('node')
-                    .css({
-                        'background-color': '#666',
-                        'label': 'data(name)',
-                        'width': 'label',
-                        'height': 'label',
-                        'shape': 'rectangle'
-                    })
-                    .selector('edge')
-                    .css({
-                        'width': 3,
-                        'line-color': '#ccc',
-                        'target-arrow-color': '#ccc',
-                        'target-arrow-shape': 'triangle'})
-                    .selector('.background')
-                    .css({
-                        'text-border-color': '#000',
-                        'text-background-color': '#ccc',
-                        'text-background-opacity': .75,
-                        'text-valign': 'center',
-                        'text-halign': 'center'
-                     }),
-
-                ready: function() {
+            // Define our style
+            scope.style = cytoscape.stylesheet()
+                            .selector('node')
+                            .css({
+                                'background-color': '#666',
+                                'label': 'data(name)',
+                                'width': 'label',
+                                'height': 'label',
+                                'shape': 'rectangle'
+                            })
+                            .selector('edge')
+                            .css({
+                                'width': 3,
+                                'line-color': '#ccc',
+                                'target-arrow-color': '#ccc',
+                                'target-arrow-shape': 'triangle'})
+                            .selector('.background')
+                            .css({
+                                'text-border-color': '#000',
+                                'text-background-color': '#ccc',
+                                'text-background-opacity': 0.75,
+                                'text-valign': 'center',
+                                'text-halign': 'center'
+                             });
+            scope.readyfunc = function() {
                     var cy = this;
                     cy.elements().unselectify();
                     cy.on('tap', 'node', function(e) {
@@ -58,7 +52,21 @@ angular.module('searchInterfaceApp')
                         var nodeId = evtTarget.id();
                         scope.cyClick({value:nodeId});
                     });
-                },
+                };
+
+            // build the graph
+            console.debug('doCy called');
+            //scope.elements.nodes = scope.cyNodes;
+            //scope.elements.edges = scope.cyEdges;
+
+            /*
+             * Check of code that actually creates the cytoscape
+             * graph which the directive is loaded.
+             */
+            scope.cy = cytoscape({
+                container: $('#cy'),
+                style: scope.style,
+                ready: scope.readyfunc,
                 elements: scope.cyNodes.concat(scope.cyEdges)
             }); // end #cy
             scope.params = {
@@ -68,11 +76,12 @@ angular.module('searchInterfaceApp')
                 fit: true,
                 nodeSpacing: 3,
                 edgeLengthVal: 30,
-                maxSimulationTime: 2000,
+                maxSimulationTime: 1500,
             };
             scope.layout = scope.cy.makeLayout(scope.params);
             scope.layout.run();
-        
+       
+            // click and tell
             scope.cy.nodes().forEach(function(n){
                 var g = n.data('id');
                 n.on('tap', function() { 
@@ -80,6 +89,26 @@ angular.module('searchInterfaceApp')
                 });
             });
 
+            // A more proper name would be "reset the graph"
+            // This resets the query graph to its initial onload
+            // state.
+            $rootScope.$on('reloadGraph', function() {
+                console.debug('Reloading the graph!!');
+                scope.layout.stop();
+                scope.cy = cytoscape({
+                    container: $('#cy'),
+                    style: scope.style,
+                    ready: scope.readyfunc,
+                    elements: scope.cyNodes.concat(scope.cyEdges)
+                });
+                scope.layout = scope.cy.makeLayout(scope.params);
+                scope.layout.run();
+            });
+
+            // This is the much overload appChanged function which,
+            // if any data is passed, it will add those new nodes to 
+            // the graph. Since we are not blowing out the layout
+            // any more I'm not sure all this code is necessary
             $rootScope.$on('appChanged', function(event, data) {
                 console.debug('Something changed!!');
                 scope.layout.stop();
@@ -89,6 +118,20 @@ angular.module('searchInterfaceApp')
                     scope.layout = scope.cy.makeLayout(scope.params);
                 }
                 //scope.layout = scope.cy.makeLayout(scope.params);
+                scope.layout.run();
+            });
+
+            // Watch for window size changes and recalculate the cytoscape 
+            // viewport. This allows us to use the graph window in a responsive
+            // layout without breaking all the things.
+            //
+            // This is still a little bit 'hackie', the below might be a better
+            // approach which would only resize on a bootstap breakpoint 
+            // change ... hmm
+            //
+            // https://gist.github.com/porjo/8638530c53472e2b9d0c
+            angular.element($window).bind('resize', function() {
+                scope.cy.resize();
                 scope.layout.run();
             });
 

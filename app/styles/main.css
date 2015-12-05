@@ -1,6 +1,6 @@
 /* This is the search interface window */
 #cy {
-    height: 500px;
+    height: 400px;
     width: 90%;
     border: 2px solid #662244;
     position: relative;
@@ -71,7 +71,7 @@ body {
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   .container {
-    max-width: 730px;
+    max-width: 900px;
   }
 
   /* Remove the padding we set earlier */
