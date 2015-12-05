@@ -11,13 +11,13 @@ angular.module('searchInterfaceApp')
   .controller('MainCtrl', ['$scope', '$rootScope', function ($scope, $rootScope) {
       var nodes = [ // Initial Graph Elements
           { // data points
-              data: { id: 'a' }
+              data: { id: 'a', name: 'testing' }, classes: 'background'
           },
           {
-              data: { id: 'b' }
+              data: { id: 'b', name: 'the' }, classes: 'background'
           },
           {
-              data: { id: 'c' }
+              data: { id: 'c', name: 'interface' }, classes: 'background'
           }
       ];
 
@@ -43,10 +43,13 @@ angular.module('searchInterfaceApp')
           $scope.edges = edges;
           $rootScope.$broadcast('appChanged');
       };
+      $scope.add = function() {
+          //$scope.nodes.push({data: {id: 'd'}});
+          //$scope.edges.push({data: {id: 'cd', source: 'c', target: 'd'}});
+          //var newnode = [ {data: { id: 'd'}, position: { x: 100, y: 100 }}, {data: { id: 'cd', source: 'c', target: 'd' }} ];
+          var newnode = [ {data: { id: 'd', name: 'some more'}, classes: 'background'}, {data: { id: 'cd', source: 'c', target: 'd' }} ];
 
-      $scope.doClick = function(value)
-      {
-          console.debug('Click Click: '+value);
+          $rootScope.$broadcast('appChanged', newnode);
       };
 
   }]);
