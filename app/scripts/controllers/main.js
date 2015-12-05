@@ -8,7 +8,28 @@
  * Controller of the searchInterfaceApp
  */
 angular.module('searchInterfaceApp')
-  .controller('MainCtrl', ['$scope', '$rootScope', function ($scope, $rootScope) {
+  .controller('MainCtrl', ['$scope', '$rootScope', '$location', '$anchorScroll', 
+    function ($scope, $rootScope, $location, $anchorScroll) {
+      // State of the interface buttons
+      
+      $scope.disableBtns = function() {
+          $scope.searchbtnDisabled = true;
+          $scope.sobtnDisabled = true;
+          $scope.addbtnDisabled = true;
+          $scope.resetbtnDisabled = true;
+          $scope.addbtnDisabled = true;
+      };
+      $scope.enableBtns = function() {
+          $scope.searchbtnDisabled = false;
+          $scope.sobtnDisabled = false;
+          $scope.addbtnDisabled = false;
+          $scope.resetbtnDisabled = false;
+          $scope.addbtnDisabled = false;
+      };
+      // Start with the buttons enabled
+      $scope.enableBtns();
+
+
       var nodes = [ // Initial Graph Elements
           { // data points
               data: { id: '1', name: 'what' }, classes: 'background'
@@ -86,6 +107,29 @@ angular.module('searchInterfaceApp')
           return {data: { id: id1+'-'+id2, source: id1, target: id2 }};
       };
 
+      /*
+       * When the user hits the search button this function orchestrates
+       * the apps response
+       */
+      $scope.search = function() {
+        console.debug('Starting a search');
+        // Make a broadcast so that the graph directive can
+        // act appropriately.
+        $rootScope.$broadcast('searchInitiated');
+        $scope.template = 'searchresults';
+        $scope.disableBtns();
+        // if you don't put the old hash back it screws up
+        // the routing and breaks the app :(
+        var old = $location.hash();
+        $location.hash('searchresultscontainer');
+        $anchorScroll();
+        $location.hash(old);
+      };
+
+      /*
+       * Function that takes the triple elements entered in the layout and figures out
+       * how to pass them to the graph library so that it "does the right thing".
+       */
       $scope.addTriple = function() {
           console.debug('Trying to add a triple.');
           //$scope.nodes.push({data: {id: 'd'}});

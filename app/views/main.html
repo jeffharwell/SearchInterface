@@ -1,20 +1,43 @@
-<div>
-    <form class="form-inline">
-       <div class="form-group">
-           <label class="sr-only" for="subject">You want</label>
-           <input type="text" class="form-control" ng-model="triple.subject" placeholder="You want" id="subject">  
-       </div>
-       <div class="form-group">
-           <label class="sr-only" for="predicate">to find</label>
-           <input type="text" class="form-control" ng-model="triple.predicate" placeholder="to find" id="predicate">
-       </div>
-       <div class="form-group">
-           <label class="sr-only" for="predicate">?</label>
-           <input type="text" class="form-control" ng-model="triple.object" placeholder="?" id="object">
-       </div>
-       <button class="btn btn-default" type="button" ng-click="addTriple()">Let's Do It!!</button>
-    </form>
-    <cytoscape-directive cy-nodes="nodes" cy-edges="edges" cy-new="newnode" cy-click="doClick(value)"></cytoscape-directive>
-    <button ng-click="reset()">Reset Graph</button>
-    <button ng-click="add()">Add Node</button>
+<div class="row">
+    <div class="col-md-12">
+        <form class="form-inline">
+           <div class="form-group">
+               <label class="sr-only" for="subject">You want</label>
+               <input type="text" class="form-control" ng-model="triple.subject" placeholder="You want" id="subject">  
+           </div>
+           <div class="form-group">
+               <label class="sr-only" for="predicate">to find</label>
+               <input type="text" class="form-control" ng-model="triple.predicate" placeholder="to find" id="predicate">
+           </div>
+           <div class="form-group">
+               <label class="sr-only" for="predicate">?</label>
+               <input type="text" class="form-control" ng-model="triple.object" placeholder="?" id="object">
+           </div>
+        </form>
+    </div> <!-- //.col-md-12 -->
+</div> <!-- // row -->
+<div class="row">
+    <div class="col-md-12">
+                <button class="btn btn-default" type="button" ng-disabled="addbtnDisabled" ng-click="addTriple()">Add My Terms!</button>
+                <button class="btn btn-default" type="button" ng-disabled="sobtnDisabled" ng-click="reset()">Start Over</button>
+                <button class="btn btn-default" type="button" ng-disabled="searchbtnDisabled" ng-click="search()">Search!</button>
+    </div>
+</div> <!-- // row -->
+<div class="row">
+    <div class="col-md-6">
+        <cytoscape-directive cy-nodes="nodes" cy-edges="edges" cy-new="newnode" cy-click="doClick(value)"></cytoscape-directive>
+    </div>
+    <div class="col-md-6">
+        <div id="searchresultscontainer">
+        <ng-include src="template"></ng-include>
+        </div>
+    </div>
 </div>
+<script type="text/ng-template" id="searchresults">
+    <ul>
+        <li>Asthma Causes - Mayo Clinic</li>
+        <li>Asthma triggers are different from persson to person and can include: airborn allergens, such as pollen, animal
+...</li>
+        <li>www.mayoclinic.org/diseases/asthma/causes</li>
+    </ul>
+</script>
