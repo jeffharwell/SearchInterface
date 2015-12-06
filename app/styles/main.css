@@ -2,10 +2,15 @@
 #cy {
     height: 400px;
     width: 90%;
-    border: 2px solid #662244;
+    /* border: 2px solid #662244; */
+    border: none;
     position: relative;
     clear: both;
 }
+
+.top-buffer { margin-top:20px; }
+
+/* end custom stuff */
 
 .browsehappy {
   margin: 0.2em 0;

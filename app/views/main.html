@@ -13,15 +13,11 @@
                <label class="sr-only" for="predicate">?</label>
                <input type="text" class="form-control" ng-model="triple.object" placeholder="?" id="object">
            </div>
-        </form>
-    </div> <!-- //.col-md-12 -->
-</div> <!-- // row -->
-<div class="row">
-    <div class="col-md-12">
-                <button class="btn btn-default" type="button" ng-disabled="addbtnDisabled" ng-click="addTriple()">Add My Terms!</button>
-                <button class="btn btn-default" type="button" ng-disabled="sobtnDisabled" ng-click="reset()">Start Over</button>
-                <button class="btn btn-default" type="button" ng-disabled="searchbtnDisabled" ng-click="search()">Search!</button>
-    </div>
+            <button class="btn btn-default" type="button" ng-disabled="addbtnDisabled" ng-click="addTriple()">Add Terms!</button>
+            <button class="btn btn-default" type="button" ng-disabled="sobtnDisabled" ng-click="reset()">Start Over</button>
+            <button class="btn btn-default" type="button" ng-disabled="searchbtnDisabled" ng-click="search()">Search!</button>
+       </form>
+    </div> <!-- /.col-md-12 -->
 </div> <!-- // row -->
 <div class="row">
     <div class="col-md-6">
@@ -34,10 +30,20 @@
     </div>
 </div>
 <script type="text/ng-template" id="searchresults">
-    <ul>
-        <li>Asthma Causes - Mayo Clinic</li>
-        <li>Asthma triggers are different from persson to person and can include: airborn allergens, such as pollen, animal
-...</li>
-        <li>www.mayoclinic.org/diseases/asthma/causes</li>
-    </ul>
+    <h1>Results</h1>
+    <div class="row">
+        <div class="col-md-12">
+        <h4>Asthma Causes - Mayo Clinic</h4>
+        <p>Asthma triggers are different from persson to person and can include: airborn allergens, such as pollen, animal ...</p>
+        <strong>www.mayoclinic.org/diseases/asthma/causes</strong>
+        </div>
+    </div>
+    <div class="row top-buffer">
+        <div class="col-md-12">
+        <h4>What Triggers or Causes Asthma? | AAFA.org</h4>
+        <p>If you have asthma, it is important to keep track of the causes or triggers that you know provoke your asthma ...</p>
+        <strong>www.aafa.org/asthma-triggers.html</strong>
+        </div>
+    </div>
+
 </script>
