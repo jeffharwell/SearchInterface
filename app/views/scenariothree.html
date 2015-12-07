@@ -1,0 +1,58 @@
+<div class="row">
+    <div class="col-md-12">
+        <form class="form-inline">
+           <div class="form-group">
+               <label class="sr-only" for="subject">You want</label>
+               <input type="text" class="form-control" ng-model="triple.subject" 
+                  placeholder="You want" id="subject" focus-me="focusSubject" 
+                  ng-disabled="subDisabled" autofocus>  
+           </div>
+           <div class="form-group">
+               <label class="sr-only" for="predicate">to find</label>
+               <input type="text" class="form-control" ng-model="triple.predicate" 
+                  placeholder="to find" id="predicate" ng-disabled="predDisabled">
+           </div>
+           <div class="form-group">
+               <label class="sr-only" for="predicate">?</label>
+               <input type="text" class="form-control" ng-model="triple.object" 
+                  placeholder="?" id="object" ng-disabled="objDisabled">
+           </div>
+            <button class="btn btn-default" type="button" ng-disabled="addbtnDisabled" ng-click="addTriple(); focusSubject=true">Add Terms!</button>
+            <button class="btn btn-default" type="button" ng-disabled="sobtnDisabled" ng-click="reset(); focusSubject=true">Start Over</button>
+            <button class="btn btn-default" type="button" ng-disabled="searchbtnDisabled" ng-click="search()">Search!</button>
+       </form>
+    </div> <!-- /.col-md-12 -->
+</div> <!-- // row -->
+<div class="row">
+    <div class="col-md-6">
+        <cytoscape-directive cy-nodes="nodes" cy-edges="edges" cy-new="newnode" cy-click="doClick(value)"></cytoscape-directive>
+    </div>
+    <div class="col-md-6">
+        <div id="searchresultscontainer">
+        <ng-include src="template"></ng-include>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <button class="btn btn-default" type="button" go-click="/scenariothreelanding">Back to Instructions</button>
+    </div>
+</div>
+<script type="text/ng-template" id="searchresults">
+    <h1>Results</h1>
+    <div class="row">
+        <div class="col-md-12">
+        <h4>Asthma Causes - Mayo Clinic</h4>
+        <p>Asthma triggers are different from persson to person and can include: airborn allergens, such as pollen, animal ...</p>
+        <strong>www.mayoclinic.org/diseases/asthma/causes</strong>
+        </div>
+    </div>
+    <div class="row top-buffer">
+        <div class="col-md-12">
+        <h4>What Triggers or Causes Asthma? | AAFA.org</h4>
+        <p>If you have asthma, it is important to keep track of the causes or triggers that you know provoke your asthma ...</p>
+        <strong>www.aafa.org/asthma-triggers.html</strong>
+        </div>
+    </div>
+
+</script>
