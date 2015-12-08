@@ -13,7 +13,8 @@
     "angular-route": "^1.4.0",
     "angular-sanitize": "^1.4.0",
     "angular-touch": "^1.4.0",
-    "cytoscape-cxtmenu": "^2.3.0"
+    "cytoscape-cxtmenu": "^2.3.0",
+    "cola.v3": "./local_dependencies/cola.v3.min.js"
   },
   "devDependencies": {
     "angular-mocks": "^1.4.0"

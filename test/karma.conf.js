@@ -35,6 +35,7 @@ module.exports = function(config) {
       'bower_components/angular-touch/angular-touch.js',
       'bower_components/cytoscape/dist/cytoscape.js',
       'bower_components/cytoscape-cxtmenu/cytoscape-cxtmenu.js',
+      'bower_components/cola.v3/index.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       "app/scripts/**/*.js",
