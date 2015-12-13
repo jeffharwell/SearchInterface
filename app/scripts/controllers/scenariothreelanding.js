@@ -9,5 +9,5 @@
  */
 angular.module('searchInterfaceApp')
   .controller('ScenarioThreeLandingCtrl', ['$routeParams', function ($routeParams) {
-      console.debug($routeParams.test);
+      console.debug("Scenario 3 Landing Page");
   }]);
