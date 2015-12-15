@@ -12,8 +12,7 @@
 angular.module('searchInterfaceApp')
   .controller('ScenarioThreeCtrl', ['$scope', '$rootScope', '$location', '$anchorScroll', 'configuration', '$http', 'mturkParameters',
     function ($scope, $rootScope, $location, $anchorScroll, configuration, $http, mturkParameters) {
-      // State of the interface buttons
-      
+       // State of the interface buttons
       $scope.disableBtns = function() {
           $scope.searchbtnDisabled = true;
           $scope.sobtnDisabled = true;
@@ -38,6 +37,10 @@ angular.module('searchInterfaceApp')
       $scope.enableBtns();
       // Except the search
       $scope.searchbtnDisabled = true;
+      // Start with the survey button disabled
+      $scope.surveyDisabled = true;
+      // Start with the instructions button enabled
+      $scope.hideInstructions = false;
       // Start with the focus on the subject entry box
       $scope.focusSubject = true;
 
@@ -105,7 +108,7 @@ angular.module('searchInterfaceApp')
       // and returns the id, it will give it a new id
       // if that element is not already on the graph
       var getElementId = function(value) {
-          if (value === null || value.trim() === '') {
+          if (!value || value.trim() === '') {
               // The box was empty .. presumable
               return null;
           } else if (value !== '?' && value in $scope.valueToId) {
@@ -145,6 +148,12 @@ angular.module('searchInterfaceApp')
         $rootScope.$broadcast('searchInitiated', queryDuration);
         $scope.template = 'searchresults';
         $scope.disableBtns();
+
+        // Allow them to go on to the survey
+        $scope.surveyDisabled = false;
+        $scope.surveyContinue= {'background-color':'red'};
+        $scope.hideInstructions = true;
+
         // if you don't put the old hash back it screws up
         // the routing and breaks the app :(
         var old = $location.hash();
