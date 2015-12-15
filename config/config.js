@@ -2,5 +2,6 @@
 
 angular.module('services.config', [])
   .constant('configuration', {
-    environment: '@@environment'
+    environment: '@@environment',
+    backendurl: '@@backendurl'
   });

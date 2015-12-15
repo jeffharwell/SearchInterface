@@ -10,8 +10,8 @@
  * on the graph.
  */
 angular.module('searchInterfaceApp')
-  .controller('ScenarioThreeCtrl', ['$scope', '$rootScope', '$location', '$anchorScroll', 
-    function ($scope, $rootScope, $location, $anchorScroll) {
+  .controller('ScenarioThreeCtrl', ['$scope', '$rootScope', '$location', '$anchorScroll', 'configuration', '$http', 'mturkParameters',
+    function ($scope, $rootScope, $location, $anchorScroll, configuration, $http, mturkParameters) {
       // State of the interface buttons
       
       $scope.disableBtns = function() {
@@ -41,6 +41,8 @@ angular.module('searchInterfaceApp')
       // Start with the focus on the subject entry box
       $scope.focusSubject = true;
 
+      // Get the query start time
+      $scope.queryStart = new Date();
 
       var nodes = [];
       /*
@@ -135,9 +137,12 @@ angular.module('searchInterfaceApp')
        */
       $scope.search = function() {
         console.debug('Starting a search');
+        // Calculate how long it took the user to create the query
+        var now = new Date();
+        var queryDuration = now - $scope.queryStart;
         // Make a broadcast so that the graph directive can
         // act appropriately.
-        $rootScope.$broadcast('searchInitiated');
+        $rootScope.$broadcast('searchInitiated', queryDuration);
         $scope.template = 'searchresults';
         $scope.disableBtns();
         // if you don't put the old hash back it screws up
@@ -146,6 +151,32 @@ angular.module('searchInterfaceApp')
         $location.hash('searchresultscontainer');
         $anchorScroll();
         $location.hash(old);
+
+        // check to see if this is an MTurk HIT
+        if (mturkParameters.isHit()) {
+
+            // Push the results to the grails backend
+            console.debug(configuration.backendurl);
+            var url = configuration.backendurl+'/recordResults';
+            var data = { assignmentid: mturkParameters.getAssignmentId(),
+                         hitid: mturkParameters.getHitId(),
+                         workerid: mturkParameters.getWorkerId(),
+                         query: {nodes:'node structure',
+                                 queryduration: 15
+                                }
+                       };
+            //var jsonString = JSON.stringify({testdata: data});
+            $http.post(url, {testdata: data})
+                .then(
+                 function(response) {
+                     console.debug('Got stuff back');
+                     console.debug(response);
+                 },
+                 function(response) {
+                     console.debug('Error');
+                     console.debug(response);
+                 });
+        }
       };
 
       /*

@@ -7,7 +7,8 @@
  * # cytoscapeDirective
  */
 angular.module('searchInterfaceApp')
-  .directive('cytoscapeDirective', function ($rootScope, $window) {
+  .directive('cytoscapeDirective', ['$rootScope','$window','mturkParameters','configuration','$http', 
+     function ($rootScope, $window, mturkParameters, configuration, $http) {
 
 
     return {
@@ -121,6 +122,36 @@ angular.module('searchInterfaceApp')
                 scope.layout.run();
             });
 
+            $rootScope.$on('searchInitiated', function(event, queryDuration) {
+                console.debug('Search Initiated, saving search graph to the database');
+                // check to see if this is an MTurk HIT
+                if (mturkParameters.isHit()) {
+
+                    // Push the results to the grails backend
+                    console.debug(configuration.backendurl);
+                    var url = configuration.backendurl+'/recordResults';
+                    var qdata = { assignmentid: mturkParameters.getAssignmentId(),
+                                 hitid: mturkParameters.getHitId(),
+                                 workerid: mturkParameters.getWorkerId(),
+                                 query: {nodes:scope.cy.json(),
+                                         queryduration: queryDuration
+                                        }
+                               };
+                    //var jsonString = JSON.stringify({testdata: data});
+                    $http.post(url, {testdata: qdata})
+                        .then(
+                         function(response) {
+                             console.debug('Got stuff back');
+                             console.debug(response);
+                         },
+                         function(response) {
+                             console.debug('Error');
+                             console.debug(response);
+                         });
+                }
+            });
+
+
             // Watch for window size changes and recalculate the cytoscape 
             // viewport. This allows us to use the graph window in a responsive
             // layout without breaking all the things.
@@ -137,5 +168,5 @@ angular.module('searchInterfaceApp')
 
         } // end of link
     }; // end of return
-});
+}]);
 

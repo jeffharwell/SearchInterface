@@ -8,6 +8,6 @@
  * Controller of the searchInterfaceApp
  */
 angular.module('searchInterfaceApp')
-  .controller('ScenarioThreeLandingCtrl', ['$routeParams', function ($routeParams) {
-      console.debug("Scenario 3 Landing Page");
+  .controller('ScenarioThreeLandingCtrl', [function () {
+      console.debug('Scenario 3 Landing Page');
   }]);

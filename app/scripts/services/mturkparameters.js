@@ -49,6 +49,14 @@ angular.module('searchInterfaceApp')
           return turkSubmitTo;
       };
 
+      var isHit = function() {
+          if (assignmentId && assignmentId !== 'ASSIGNMENT_ID_NOT_AVAILABLE') {
+              return true;
+          } else {
+              return false;
+          }
+      };
+
       var isPreview = function() {
           if (assignmentId && assignmentId === 'ASSIGNMENT_ID_NOT_AVAILABLE') {
               return true;
@@ -63,6 +71,7 @@ angular.module('searchInterfaceApp')
           getHitId: getHitId,
           getWorkerId: getWorkerId,
           getTurkSubmitTo: getTurkSubmitTo,
-          isPreview: isPreview
+          isPreview: isPreview,
+          isHit: isHit
       };
   });
