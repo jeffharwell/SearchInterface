@@ -47,6 +47,8 @@ angular.module('searchInterfaceApp')
                              });
             scope.readyfunc = function() {
                     var cy = this;
+                    // Disable zooming (it is just confusing)
+                    cy.userZoomingEnabled(false);
                     cy.elements().unselectify();
                     cy.on('tap', 'node', function(e) {
                         var evtTarget = e.cyTarget;

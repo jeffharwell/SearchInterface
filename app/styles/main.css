@@ -6,6 +6,7 @@
     border: none;
     position: relative;
     clear: both;
+    background: #f8f8f8;
 }
 
 .top-buffer { margin-top:20px; }
