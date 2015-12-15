@@ -1,4 +1,4 @@
 {
   "environment": "production",
-  "backendurl": "https://triple2.jeffharwell.com/SearchInterface"
+  "backendurl": "https://triple2.jeffharwell.com/apiservice/SearchInterface"
 }
